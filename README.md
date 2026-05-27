@@ -82,19 +82,7 @@ cp .env.example .env
 npm run dev
 ```
 
-The backend runs at `http://localhost:5000` by default.
-
-Backend environment variables:
-
-```text
-PORT=5000
-NODE_ENV=development
-MONGO_URI=mongodb://127.0.0.1:27017/task_management_app
-JWT_SECRET=change_me_to_a_long_random_secret
-JWT_EXPIRES_IN=7d
-CLIENT_URL=http://localhost:5173
-ADMIN_INVITE_CODE=admin-secret
-```
+The backend runs at `http://localhost:3000` by default.
 
 Backend scripts:
 
@@ -116,7 +104,7 @@ The frontend runs at `http://localhost:5173` by default.
 Frontend environment variables:
 
 ```text
-VITE_API_BASE_URL=http://localhost:5000/api
+VITE_API_BASE_URL=http://localhost:3000/api
 ```
 
 Frontend scripts:
@@ -130,7 +118,7 @@ Frontend scripts:
 Base API URL:
 
 ```text
-http://localhost:5000/api
+http://localhost:3000/api
 ```
 
 Health and documentation:
@@ -158,7 +146,7 @@ Users:
 - `GET /api/users` admin only
 - `GET /api/users/overview` admin only
 
-Swagger docs are available at `http://localhost:5000/api/docs`.
+Swagger docs are available at `http://localhost:3000/api/docs`.
 
 ## Auth And Roles
 
