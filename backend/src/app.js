@@ -2,8 +2,10 @@ const cors = require("cors");
 const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const swaggerUi = require("swagger-ui-express");
 
 const env = require("./config/env");
+const swaggerSpec = require("./docs/swaggerSpec");
 const authRoutes = require("./routes/authRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -22,6 +24,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan(env.nodeEnv === "production" ? "combined" : "dev"));
 
+app.get("/api/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    environment: env.nodeEnv,
+    timestamp: new Date().toISOString(),
+  });
+});
+
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes);

@@ -1,16 +1,18 @@
+const mongoose = require("mongoose");
+
 const Task = require("../models/Task");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 
 const allowedSortFields = new Set(["createdAt", "updatedAt", "dueDate", "title"]);
 
-const buildTaskQuery = (req) => {
+const buildBaseQuery = (req) => {
   const { status, priority, search, scope, userId } = req.query;
   const query = {};
 
   if (req.user.role !== "admin" || scope !== "all") {
     query.user = req.user._id;
-  } else if (userId) {
+  } else if (userId && mongoose.isValidObjectId(userId)) {
     query.user = userId;
   }
 
@@ -22,20 +24,16 @@ const buildTaskQuery = (req) => {
     query.priority = priority;
   }
 
-  if (search && search.trim()) {
+  if (search?.trim()) {
     const regex = new RegExp(search.trim(), "i");
-    query.$or = [{ title: regex }, { description: regex }, { tags: regex }];
+    query.$or = [
+      { title: regex },
+      { description: regex },
+      { tags: regex },
+    ];
   }
 
   return query;
-};
-
-const buildStatsQuery = (req) => {
-  if (req.user.role === "admin" && req.query.scope === "all") {
-    return req.query.userId ? { user: req.query.userId } : {};
-  }
-
-  return { user: req.user._id };
 };
 
 const getTaskStats = async (query) => {
@@ -52,16 +50,6 @@ const getTaskStats = async (query) => {
   };
 };
 
-const ensureTaskAccess = (task, user) => {
-  if (!task) {
-    throw new ApiError(404, "Task not found.");
-  }
-
-  if (user.role !== "admin" && task.user.toString() !== user._id.toString()) {
-    throw new ApiError(403, "You do not have access to this task.");
-  }
-};
-
 const getTasks = asyncHandler(async (req, res) => {
   const page = Math.max(Number(req.query.page) || 1, 1);
   const limit = Math.min(Math.max(Number(req.query.limit) || 6, 1), 50);
@@ -69,7 +57,7 @@ const getTasks = asyncHandler(async (req, res) => {
     ? req.query.sortBy
     : "createdAt";
   const order = req.query.order === "asc" ? 1 : -1;
-  const query = buildTaskQuery(req);
+  const query = buildBaseQuery(req);
 
   const [tasks, total, stats] = await Promise.all([
     Task.find(query)
@@ -78,7 +66,11 @@ const getTasks = asyncHandler(async (req, res) => {
       .limit(limit)
       .populate("user", "name email role"),
     Task.countDocuments(query),
-    getTaskStats(buildStatsQuery(req)),
+    getTaskStats(
+      req.user.role === "admin" && req.query.scope === "all"
+        ? userScopeQuery(req)
+        : { user: req.user._id }
+    ),
   ]);
 
   return res.status(200).json({
@@ -93,6 +85,14 @@ const getTasks = asyncHandler(async (req, res) => {
   });
 });
 
+const userScopeQuery = (req) => {
+  if (req.query.userId && mongoose.isValidObjectId(req.query.userId)) {
+    return { user: req.query.userId };
+  }
+
+  return {};
+};
+
 const getTaskById = asyncHandler(async (req, res) => {
   const task = await Task.findById(req.params.id).populate(
     "user",
@@ -103,10 +103,7 @@ const getTaskById = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Task not found.");
   }
 
-  if (
-    req.user.role !== "admin" &&
-    task.user._id.toString() !== req.user._id.toString()
-  ) {
+  if (req.user.role !== "admin" && task.user._id.toString() !== req.user._id.toString()) {
     throw new ApiError(403, "You do not have access to this task.");
   }
 
@@ -127,15 +124,24 @@ const createTask = asyncHandler(async (req, res) => {
     user: req.user._id,
   });
 
+  const populatedTask = await task.populate("user", "name email role");
+
   return res.status(201).json({
     message: "Task created successfully.",
-    task: await task.populate("user", "name email role"),
+    task: populatedTask,
   });
 });
 
 const updateTask = asyncHandler(async (req, res) => {
   const task = await Task.findById(req.params.id);
-  ensureTaskAccess(task, req.user);
+
+  if (!task) {
+    throw new ApiError(404, "Task not found.");
+  }
+
+  if (req.user.role !== "admin" && task.user.toString() !== req.user._id.toString()) {
+    throw new ApiError(403, "You do not have access to this task.");
+  }
 
   const fields = ["title", "description", "priority", "dueDate", "status"];
   fields.forEach((field) => {
@@ -162,7 +168,14 @@ const updateTask = asyncHandler(async (req, res) => {
 
 const toggleTaskStatus = asyncHandler(async (req, res) => {
   const task = await Task.findById(req.params.id);
-  ensureTaskAccess(task, req.user);
+
+  if (!task) {
+    throw new ApiError(404, "Task not found.");
+  }
+
+  if (req.user.role !== "admin" && task.user.toString() !== req.user._id.toString()) {
+    throw new ApiError(403, "You do not have access to this task.");
+  }
 
   task.status = task.status === "completed" ? "pending" : "completed";
   task.completedAt = task.status === "completed" ? new Date() : null;
@@ -177,7 +190,14 @@ const toggleTaskStatus = asyncHandler(async (req, res) => {
 
 const deleteTask = asyncHandler(async (req, res) => {
   const task = await Task.findById(req.params.id);
-  ensureTaskAccess(task, req.user);
+
+  if (!task) {
+    throw new ApiError(404, "Task not found.");
+  }
+
+  if (req.user.role !== "admin" && task.user.toString() !== req.user._id.toString()) {
+    throw new ApiError(403, "You do not have access to this task.");
+  }
 
   await task.deleteOne();
 
