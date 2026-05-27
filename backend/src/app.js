@@ -5,6 +5,7 @@ const morgan = require("morgan");
 
 const env = require("./config/env");
 const authRoutes = require("./routes/authRoutes");
+const taskRoutes = require("./routes/taskRoutes");
 const { notFound, errorHandler } = require("./middleware/errorHandler");
 
 const app = express();
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan(env.nodeEnv === "production" ? "combined" : "dev"));
 
 app.use("/api/auth", authRoutes);
+app.use("/api/tasks", taskRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

@@ -29,6 +29,17 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
+const authorize =
+  (...roles) =>
+  (req, res, next) => {
+    if (!req.user || !roles.includes(req.user.role)) {
+      return next(new ApiError(403, "You do not have access to this resource."));
+    }
+
+    return next();
+  };
+
 module.exports = {
   protect,
+  authorize,
 };
