@@ -4,6 +4,7 @@ mongoose.set("strictQuery", true);
 
 const connectDatabase = async (mongoUri) => {
   await mongoose.connect(mongoUri);
+  console.log(`✅ MongoDB Connected`);
 };
 
 const disconnectDatabase = async () => {
