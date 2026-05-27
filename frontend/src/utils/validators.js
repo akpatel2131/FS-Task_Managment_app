@@ -31,3 +31,21 @@ export const validateLoginForm = ({ email, password }) => {
 
   return errors;
 };
+
+export const validateTaskForm = ({ title, description }) => {
+  const errors = {};
+
+  if (!title.trim()) {
+    errors.title = "Task title is required.";
+  }
+
+  if (title.trim().length > 120) {
+    errors.title = "Task title must be 120 characters or fewer.";
+  }
+
+  if (description.trim().length > 500) {
+    errors.description = "Description must be 500 characters or fewer.";
+  }
+
+  return errors;
+};

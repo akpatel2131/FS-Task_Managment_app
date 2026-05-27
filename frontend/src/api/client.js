@@ -3,7 +3,7 @@ import axios from "axios";
 const storageToken = localStorage.getItem("task_manager_token");
 
 export const apiClient = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api",
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api",
 });
 
 let authToken = storageToken;
@@ -33,3 +33,4 @@ apiClient.interceptors.response.use(
     return Promise.reject(wrappedError);
   }
 );
+
