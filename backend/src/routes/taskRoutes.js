@@ -1,5 +1,5 @@
 const express = require("express");
-const { body } = require("express-validator");
+const { body, query } = require("express-validator");
 
 const {
   getTasks,
@@ -42,7 +42,24 @@ const taskValidation = [
 
 router.use(protect);
 
-router.get("/", getTasks);
+router.get(
+  "/",
+  [
+    query("status").optional().isIn(["all", "pending", "completed"]),
+    query("priority").optional().isIn(["all", "low", "medium", "high"]),
+    query("sortBy")
+      .optional()
+      .isIn(["createdAt", "updatedAt", "dueDate", "title"]),
+    query("order").optional().isIn(["asc", "desc"]),
+    query("page").optional().isInt({ min: 1 }),
+    query("limit").optional().isInt({ min: 1, max: 50 }),
+    query("scope").optional().isIn(["mine", "all"]),
+    query("userId").optional().isMongoId(),
+    query("search").optional().isString(),
+  ],
+  validate,
+  getTasks
+);
 router.get("/:id", getTaskById);
 
 router.post(

@@ -2,6 +2,56 @@ const Task = require("../models/Task");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 
+const allowedSortFields = new Set(["createdAt", "updatedAt", "dueDate", "title"]);
+
+const buildTaskQuery = (req) => {
+  const { status, priority, search, scope, userId } = req.query;
+  const query = {};
+
+  if (req.user.role !== "admin" || scope !== "all") {
+    query.user = req.user._id;
+  } else if (userId) {
+    query.user = userId;
+  }
+
+  if (status && status !== "all") {
+    query.status = status;
+  }
+
+  if (priority && priority !== "all") {
+    query.priority = priority;
+  }
+
+  if (search && search.trim()) {
+    const regex = new RegExp(search.trim(), "i");
+    query.$or = [{ title: regex }, { description: regex }, { tags: regex }];
+  }
+
+  return query;
+};
+
+const buildStatsQuery = (req) => {
+  if (req.user.role === "admin" && req.query.scope === "all") {
+    return req.query.userId ? { user: req.query.userId } : {};
+  }
+
+  return { user: req.user._id };
+};
+
+const getTaskStats = async (query) => {
+  const [all, completed, pending] = await Promise.all([
+    Task.countDocuments(query),
+    Task.countDocuments({ ...query, status: "completed" }),
+    Task.countDocuments({ ...query, status: "pending" }),
+  ]);
+
+  return {
+    all,
+    completed,
+    pending,
+  };
+};
+
 const ensureTaskAccess = (task, user) => {
   if (!task) {
     throw new ApiError(404, "Task not found.");
@@ -13,12 +63,34 @@ const ensureTaskAccess = (task, user) => {
 };
 
 const getTasks = asyncHandler(async (req, res) => {
-  const query = req.user.role === "admin" ? {} : { user: req.user._id };
-  const tasks = await Task.find(query)
-    .sort({ createdAt: -1 })
-    .populate("user", "name email role");
+  const page = Math.max(Number(req.query.page) || 1, 1);
+  const limit = Math.min(Math.max(Number(req.query.limit) || 6, 1), 50);
+  const sortBy = allowedSortFields.has(req.query.sortBy)
+    ? req.query.sortBy
+    : "createdAt";
+  const order = req.query.order === "asc" ? 1 : -1;
+  const query = buildTaskQuery(req);
 
-  return res.status(200).json({ tasks });
+  const [tasks, total, stats] = await Promise.all([
+    Task.find(query)
+      .sort({ [sortBy]: order })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .populate("user", "name email role"),
+    Task.countDocuments(query),
+    getTaskStats(buildStatsQuery(req)),
+  ]);
+
+  return res.status(200).json({
+    tasks,
+    pagination: {
+      page,
+      limit,
+      total,
+      pages: Math.max(Math.ceil(total / limit), 1),
+    },
+    stats,
+  });
 });
 
 const getTaskById = asyncHandler(async (req, res) => {
