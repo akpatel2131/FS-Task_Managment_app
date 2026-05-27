@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { validateLoginForm, validateSignupForm } from "../utils/validators";
+import styles from "./AuthForm.module.css";
 
 const initialState = {
   name: "",
@@ -46,8 +47,8 @@ const AuthForm = ({ mode, onSubmit, isSubmitting, errorMessage }) => {
   };
 
   return (
-    <form className="auth-form" onSubmit={handleSubmit}>
-      <div className="section-heading">
+    <form className={styles.authForm} onSubmit={handleSubmit}>
+      <div className={styles.sectionHeading}>
         <h2>{mode === "signup" ? "Create your workspace" : "Welcome back"}</h2>
         <p>
           {mode === "signup"
@@ -57,7 +58,7 @@ const AuthForm = ({ mode, onSubmit, isSubmitting, errorMessage }) => {
       </div>
 
       {mode === "signup" && (
-        <label className="input-group">
+        <label className={styles.inputGroup}>
           <span>Full name</span>
           <input
             name="name"
@@ -70,7 +71,7 @@ const AuthForm = ({ mode, onSubmit, isSubmitting, errorMessage }) => {
         </label>
       )}
 
-      <label className="input-group">
+      <label className={styles.inputGroup}>
         <span>Email address</span>
         <input
           name="email"
@@ -82,7 +83,7 @@ const AuthForm = ({ mode, onSubmit, isSubmitting, errorMessage }) => {
         {errors.email && <small>{errors.email}</small>}
       </label>
 
-      <label className="input-group">
+      <label className={styles.inputGroup}>
         <span>Password</span>
         <input
           name="password"
@@ -95,7 +96,7 @@ const AuthForm = ({ mode, onSubmit, isSubmitting, errorMessage }) => {
       </label>
 
       {mode === "signup" && (
-        <label className="input-group">
+        <label className={styles.inputGroup}>
           <span>Admin invite code (optional)</span>
           <input
             name="inviteCode"
@@ -107,9 +108,12 @@ const AuthForm = ({ mode, onSubmit, isSubmitting, errorMessage }) => {
         </label>
       )}
 
-      {errorMessage && <div className="form-alert">{errorMessage}</div>}
+      {errorMessage && <div className={styles.formAlert}>{errorMessage}</div>}
 
-      <button className="button button--primary button--full" disabled={isSubmitting}>
+      <button
+        className={`${styles.button} ${styles.buttonPrimary} ${styles.buttonFull}`}
+        disabled={isSubmitting}
+      >
         {isSubmitting
           ? "Please wait..."
           : mode === "signup"

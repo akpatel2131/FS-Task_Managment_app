@@ -1,6 +1,9 @@
+version: "3.9"
+
 services:
   mongo:
     image: mongo:7
+    container_name: task-management-mongo
     restart: unless-stopped
     ports:
       - "27017:27017"
@@ -10,19 +13,33 @@ services:
   backend:
     build:
       context: ./backend
+    container_name: task-management-backend
     restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      MONGO_URI: mongodb://mongo:27017/task_management_app
+      JWT_SECRET: change_this_before_deploying
+      JWT_EXPIRES_IN: 7d
+      CLIENT_URL: http://localhost:8080
+      ADMIN_INVITE_CODE: admin-secret
     depends_on:
       - mongo
     ports:
       - "5000:5000"
-    environment:
-      PORT: 5000
-      NODE_ENV: development
-      MONGO_URI: mongodb://mongo:27017/task_management_app
-      JWT_SECRET: change_me_to_a_long_random_secret
-      JWT_EXPIRES_IN: 7d
-      CLIENT_URL: http://localhost:5173
-      ADMIN_INVITE_CODE: admin-secret
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: http://localhost:5000/api
+    container_name: task-management-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
 
 volumes:
   mongo_data:
+

@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
+import styles from "./AuthLayout.module.css";
 
 const AuthLayout = ({ title, subtitle, switchText, switchLink, children }) => (
-  <main className="auth-page">
-    <section className="auth-hero">
-      <div className="auth-hero__badge">Focused work, fewer loose ends</div>
+  <main className={styles.authPage}>
+    <section className={styles.authHero}>
+      <div className={styles.authHeroBadge}>Focused work, fewer loose ends</div>
       <h1>{title}</h1>
       <p>{subtitle}</p>
-      <div className="auth-hero__panel">
+      <div className={styles.authHeroPanel}>
         <div>
           <strong>Daily rhythm</strong>
           <span>Capture work quickly and move from backlog to done.</span>
@@ -22,9 +23,9 @@ const AuthLayout = ({ title, subtitle, switchText, switchLink, children }) => (
       </div>
     </section>
 
-    <section className="auth-card">
+    <section className={styles.authCard}>
       {children}
-      <p className="auth-switch">
+      <p className={styles.authSwitch}>
         {switchText} <Link to={switchLink}>Switch here</Link>
       </p>
     </section>

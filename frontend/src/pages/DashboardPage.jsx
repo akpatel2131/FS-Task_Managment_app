@@ -17,6 +17,7 @@ import TaskList from "../components/TaskList";
 import ThemeToggle from "../components/ThemeToggle";
 import useAuth from "../hooks/useAuth";
 import AppShell from "../layouts/AppShell";
+import styles from "./DashboardPage.module.css";
 
 const defaultFilters = {
   search: "",
@@ -204,62 +205,47 @@ const DashboardPage = () => {
     }));
   };
 
-  const sidebar = (
-    <>
-      <div className="brand-block">
-        <span className="brand-block__eyebrow">Task Management App</span>
-        <h1>Turn scattered todos into a clear working rhythm.</h1>
-        <p>
-          Organize work, keep priorities visible, and update progress from any device.
-        </p>
-      </div>
-
-      <div className="side-card">
-        <span className="side-card__label">Signed in as</span>
-        <strong>{user?.name}</strong>
-        <p>{user?.email}</p>
-        <span className="role-badge">{user?.role}</span>
-      </div>
-
-      <div className="side-card">
-        <span className="side-card__label">Quick Notes</span>
-        <ul className="side-list">
-          <li>Create, edit, delete, and toggle task progress.</li>
-          <li>Filter by status and priority, then search instantly.</li>
-          <li>Use dark mode for late-night work sessions.</li>
-        </ul>
-      </div>
-    </>
-  );
-
   const header = (
     <>
       <div>
-        <span className="dashboard-header__eyebrow">Dashboard</span>
+        <span className={styles.dashboardHeaderEyebrow}>Dashboard</span>
         <h2>{user?.role === "admin" ? "Workspace command center" : "Your task flow"}</h2>
       </div>
-      <div className="header-actions">
+      <div className={styles.headerActions}>
         <ThemeToggle />
-        <button
-          className="button button--ghost"
-          onClick={() => {
-            logout();
-            navigate("/login");
-          }}
-          type="button"
-        >
-          Logout
-        </button>
+        <div className={styles.profileMenu} tabIndex="0">
+          <button className={styles.profileTrigger} type="button" aria-label="Open profile menu">
+            {(user?.name || user?.email || "U").slice(0, 1).toUpperCase()}
+          </button>
+          <div className={styles.profilePopup}>
+            <span className={styles.profilePopupLabel}>Signed in as</span>
+            <strong>{user?.name}</strong>
+            <p>{user?.email}</p>
+            <span className={styles.roleBadge}>Role: {user?.role}</span>
+            <button
+              className={`${styles.button} ${styles.buttonGhost} ${styles.buttonFull}`}
+              onClick={() => {
+                logout();
+                navigate("/login");
+              }}
+              type="button"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
       </div>
     </>
   );
 
   return (
     <>
-      <AppShell sidebar={sidebar} header={header}>
+      <AppShell header={header}>
         <StatsGrid stats={stats} adminOverview={adminOverview} />
 
-        {errorMessage && <div className="form-alert form-alert--wide">{errorMessage}</div>}
+        {errorMessage && (
+          <div className={`${styles.formAlert} ${styles.formAlertWide}`}>{errorMessage}</div>
+        )}
 
         <TaskFilters
           filters={filters}

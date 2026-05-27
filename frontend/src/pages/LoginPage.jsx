@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import AuthForm from "../components/AuthForm";
-import ThemeToggle from "../components/ThemeToggle";
 import useAuth from "../hooks/useAuth";
 import AuthLayout from "../layouts/AuthLayout";
 
@@ -26,10 +25,6 @@ const LoginPage = () => {
   };
 
   return (
-    <>
-      <div className="floating-theme-toggle">
-        <ThemeToggle />
-      </div>
       <AuthLayout
         title="Track work with confidence."
         subtitle="A modern task board for capturing priorities, progress, and momentum."
@@ -43,7 +38,6 @@ const LoginPage = () => {
           errorMessage={errorMessage}
         />
       </AuthLayout>
-    </>
   );
 };
 

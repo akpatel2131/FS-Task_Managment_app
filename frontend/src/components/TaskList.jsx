@@ -1,4 +1,5 @@
 import TaskCard from "./TaskCard";
+import styles from "./TaskList.module.css";
 
 const TaskList = ({
   tasks,
@@ -10,15 +11,15 @@ const TaskList = ({
 }) => {
   if (isLoading) {
     return (
-      <section className="panel-card centered-state">
-        <div className="spinner" />
+      <section className={`${styles.panelCard} ${styles.centeredState}`}>
+        <div className={styles.spinner} />
       </section>
     );
   }
 
   if (tasks.length === 0) {
     return (
-      <section className="panel-card empty-state">
+      <section className={`${styles.panelCard} ${styles.emptyState}`}>
         <h3>No tasks match the current filters.</h3>
         <p>Create a task or reset the filters to see more results.</p>
       </section>
@@ -26,7 +27,7 @@ const TaskList = ({
   }
 
   return (
-    <section className="task-grid">
+    <section className={styles.taskGrid}>
       {tasks.map((task) => (
         <TaskCard
           key={task._id}

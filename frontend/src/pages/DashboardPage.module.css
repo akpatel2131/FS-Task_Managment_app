@@ -1,0 +1,147 @@
+.dashboardHeaderEyebrow {
+  display: inline-flex;
+  width: fit-content;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.24);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dashboardHeaderEyebrow + h2 {
+  margin: 18px 0 12px;
+  font-family: var(--font-heading);
+  line-height: 1;
+}
+
+.headerActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.profileMenu {
+  position: relative;
+  display: flex;
+  align-items: center;
+  outline: none;
+}
+
+.profileTrigger {
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--card-border);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 800;
+  box-shadow: var(--shadow);
+}
+
+.profilePopup {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 40;
+  min-width: 240px;
+  padding: 18px;
+  display: grid;
+  gap: 10px;
+  border-radius: 22px;
+  border: 1px solid var(--card-border);
+  background: var(--bg-strong);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+}
+
+.profileMenu:hover .profilePopup,
+.profileMenu:focus-within .profilePopup {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.profilePopupLabel {
+  display: inline-flex;
+  width: fit-content;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.profilePopup strong {
+  font-family: var(--font-heading);
+}
+
+.profilePopup p {
+  margin: 0;
+  color: var(--text-soft);
+}
+
+.roleBadge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.button {
+  border: 1px solid color-mix(in srgb, var(--card-border) 58%, var(--text) 42%);
+  border-radius: 16px;
+  padding: 14px 18px;
+  font-weight: 700;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.buttonGhost {
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--text);
+}
+
+.buttonFull {
+  width: 100%;
+}
+
+.formAlert {
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(185, 28, 28, 0.12);
+  border: 1px solid rgba(185, 28, 28, 0.16);
+  color: var(--danger);
+}
+
+.formAlertWide {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 680px) {
+  .headerActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .profilePopup {
+    right: 0;
+    min-width: min(240px, calc(100vw - 64px));
+  }
+}

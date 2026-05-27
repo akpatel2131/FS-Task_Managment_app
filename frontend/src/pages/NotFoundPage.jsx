@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
+import styles from "./NotFoundPage.module.css";
 
 const NotFoundPage = () => (
-  <main className="centered-state">
-    <section className="panel-card panel-card--narrow empty-state">
+  <main className={styles.centeredState}>
+    <section className={`${styles.panelCard} ${styles.panelCardNarrow} ${styles.emptyState}`}>
       <h1>Page not found</h1>
       <p>The page you are looking for does not exist.</p>
-      <Link className="button button--primary" to="/dashboard">
+      <Link className={`${styles.button} ${styles.buttonPrimary}`} to="/dashboard">
         Go to dashboard
       </Link>
     </section>
@@ -13,4 +14,3 @@ const NotFoundPage = () => (
 );
 
 export default NotFoundPage;
-

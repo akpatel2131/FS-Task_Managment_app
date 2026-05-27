@@ -1,3 +1,5 @@
+import styles from "./TaskCard.module.css";
+
 const formatDate = (dateString) => {
   if (!dateString) {
     return "No due date";
@@ -11,17 +13,33 @@ const formatDate = (dateString) => {
 };
 
 const TaskCard = ({ task, onEdit, onDelete, onToggle, isBusy }) => (
-  <article className="task-card">
-    <div className="task-card__header">
+  <article className={styles.taskCard}>
+    <div className={styles.taskCardHeader}>
       <div>
-        <div className="task-card__labels">
-          <span className={`pill pill--${task.status}`}>{task.status}</span>
-          <span className={`pill pill--priority-${task.priority}`}>{task.priority}</span>
+        <div className={styles.taskCardLabels}>
+          <span
+            className={`${styles.pill} ${
+              task.status === "completed" ? styles.pillCompleted : styles.pillPending
+            }`}
+          >
+            {task.status}
+          </span>
+          <span
+            className={`${styles.pill} ${
+              task.priority === "high"
+                ? styles.pillPriorityHigh
+                : task.priority === "medium"
+                  ? styles.pillPriorityMedium
+                  : styles.pillPriorityLow
+            }`}
+          >
+            {task.priority}
+          </span>
         </div>
         <h3>{task.title}</h3>
       </div>
       <button
-        className="icon-button"
+        className={styles.iconButton}
         onClick={() => onEdit(task)}
         type="button"
         aria-label={`Edit ${task.title}`}
@@ -30,32 +48,32 @@ const TaskCard = ({ task, onEdit, onDelete, onToggle, isBusy }) => (
       </button>
     </div>
 
-    <p className="task-card__description">
+    <p className={styles.taskCardDescription}>
       {task.description || "No description added yet."}
     </p>
 
-    <div className="task-card__meta">
+    <div className={styles.taskCardMeta}>
       <span>Due: {formatDate(task.dueDate)}</span>
       <span>Updated: {formatDate(task.updatedAt)}</span>
     </div>
 
     {task.user?.name && (
-      <div className="task-card__owner">Owner: {task.user.name}</div>
+      <div className={styles.taskCardOwner}>Owner: {task.user.name}</div>
     )}
 
     {task.tags?.length > 0 && (
-      <div className="tag-list">
+      <div className={styles.tagList}>
         {task.tags.map((tag) => (
-          <span key={tag} className="tag">
+          <span key={tag} className={styles.tag}>
             #{tag}
           </span>
         ))}
       </div>
     )}
 
-    <div className="task-card__actions">
+    <div className={styles.taskCardActions}>
       <button
-        className="button button--secondary"
+        className={`${styles.button} ${styles.buttonSecondary}`}
         onClick={() => onToggle(task._id)}
         type="button"
         disabled={isBusy}
@@ -63,7 +81,7 @@ const TaskCard = ({ task, onEdit, onDelete, onToggle, isBusy }) => (
         {task.status === "completed" ? "Mark pending" : "Mark complete"}
       </button>
       <button
-        className="button button--danger"
+        className={`${styles.button} ${styles.buttonDanger}`}
         onClick={() => onDelete(task._id)}
         type="button"
         disabled={isBusy}

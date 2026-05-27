@@ -1,0 +1,81 @@
+.authForm {
+  display: grid;
+  gap: 16px;
+}
+
+.sectionHeading h2 {
+  margin: 0 0 12px;
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.sectionHeading p {
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.inputGroup {
+  display: grid;
+  gap: 8px;
+}
+
+.inputGroup span {
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.inputGroup input {
+  width: 100%;
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  padding: 14px 16px;
+  background: var(--input-bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.inputGroup input:focus {
+  border-color: color-mix(in srgb, var(--primary) 60%, white 40%);
+  transform: translateY(-1px);
+}
+
+.inputGroup small {
+  color: var(--danger);
+}
+
+.formAlert {
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(185, 28, 28, 0.12);
+  border: 1px solid rgba(185, 28, 28, 0.16);
+  color: var(--danger);
+}
+
+.button {
+  border: none;
+  border-radius: 16px;
+  padding: 14px 18px;
+  font-weight: 700;
+  transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.buttonPrimary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+}
+
+.buttonFull {
+  width: 100%;
+}

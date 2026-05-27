@@ -1,3 +1,5 @@
+import styles from "./TaskFilters.module.css";
+
 const TaskFilters = ({
   filters,
   onFilterChange,
@@ -5,19 +7,23 @@ const TaskFilters = ({
   onCreateTask,
   isAdmin,
 }) => (
-  <section className="toolbar-card">
-    <div className="toolbar-card__top">
+  <section className={styles.toolbarCard}>
+    <div className={styles.toolbarCardTop}>
       <div>
         <h2>Task Board</h2>
         <p>Search, sort, and focus on what needs attention right now.</p>
       </div>
-      <button className="button button--primary" onClick={onCreateTask} type="button">
+      <button
+        className={`${styles.button} ${styles.buttonPrimary}`}
+        onClick={onCreateTask}
+        type="button"
+      >
         + New Task
       </button>
     </div>
 
-    <div className="filter-grid">
-      <label className="input-group input-group--compact">
+    <div className={styles.filterGrid}>
+      <label className={`${styles.inputGroup} ${styles.inputGroupCompact}`}>
         <span>Search</span>
         <input
           name="search"
@@ -28,7 +34,7 @@ const TaskFilters = ({
         />
       </label>
 
-      <label className="input-group input-group--compact">
+      <label className={`${styles.inputGroup} ${styles.inputGroupCompact}`}>
         <span>Status</span>
         <select name="status" value={filters.status} onChange={onFilterChange}>
           <option value="all">All</option>
@@ -37,7 +43,7 @@ const TaskFilters = ({
         </select>
       </label>
 
-      <label className="input-group input-group--compact">
+      <label className={`${styles.inputGroup} ${styles.inputGroupCompact}`}>
         <span>Priority</span>
         <select name="priority" value={filters.priority} onChange={onFilterChange}>
           <option value="all">All</option>
@@ -47,7 +53,7 @@ const TaskFilters = ({
         </select>
       </label>
 
-      <label className="input-group input-group--compact">
+      <label className={`${styles.inputGroup} ${styles.inputGroupCompact}`}>
         <span>Sort by</span>
         <select name="sortBy" value={filters.sortBy} onChange={onFilterChange}>
           <option value="createdAt">Recently created</option>
@@ -57,7 +63,7 @@ const TaskFilters = ({
         </select>
       </label>
 
-      <label className="input-group input-group--compact">
+      <label className={`${styles.inputGroup} ${styles.inputGroupCompact}`}>
         <span>Order</span>
         <select name="order" value={filters.order} onChange={onFilterChange}>
           <option value="desc">Descending</option>
@@ -66,7 +72,7 @@ const TaskFilters = ({
       </label>
 
       {isAdmin && (
-        <label className="input-group input-group--compact">
+        <label className={`${styles.inputGroup} ${styles.inputGroupCompact}`}>
           <span>Scope</span>
           <select name="scope" value={filters.scope} onChange={onFilterChange}>
             <option value="mine">My tasks</option>
@@ -76,7 +82,7 @@ const TaskFilters = ({
       )}
     </div>
 
-    <button className="button button--ghost" onClick={onResetFilters} type="button">
+    <button className={`${styles.button} ${styles.buttonGhost}`} onClick={onResetFilters} type="button">
       Reset filters
     </button>
   </section>

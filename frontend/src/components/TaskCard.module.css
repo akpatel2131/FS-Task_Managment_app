@@ -1,0 +1,137 @@
+.taskCard {
+  display: grid;
+  gap: 16px;
+  padding: 22px;
+  border-radius: 24px;
+  backdrop-filter: blur(16px);
+  background: var(--bg-elevated);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
+}
+
+.taskCardHeader,
+.taskCardActions,
+.taskCardMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.taskCardHeader {
+  align-items: flex-start;
+}
+
+.taskCardLabels {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.taskCard h3 {
+  margin: 18px 0 12px;
+  font-family: var(--font-heading);
+  line-height: 1;
+}
+
+.pill,
+.tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 8px 12px;
+}
+
+.pillPending {
+  background: rgba(194, 65, 12, 0.12);
+  color: var(--warning);
+}
+
+.pillCompleted {
+  background: rgba(21, 128, 61, 0.12);
+  color: var(--success);
+}
+
+.pillPriorityHigh {
+  background: rgba(185, 28, 28, 0.14);
+  color: var(--danger);
+}
+
+.pillPriorityMedium {
+  background: rgba(3, 105, 161, 0.14);
+  color: var(--info);
+}
+
+.pillPriorityLow {
+  background: rgba(15, 118, 110, 0.14);
+  color: var(--accent);
+}
+
+.iconButton {
+  border: 1px solid color-mix(in srgb, var(--card-border) 58%, var(--text) 42%);
+  border-radius: 16px;
+  padding: 12px 14px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--text);
+  transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+}
+
+.iconButton:hover {
+  transform: translateY(-1px);
+}
+
+.taskCardDescription,
+.taskCardMeta,
+.taskCardOwner {
+  color: var(--text-soft);
+  line-height: 1.7;
+  font-size: 0.92rem;
+}
+
+.tagList {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.button {
+  border: 1px solid color-mix(in srgb, var(--card-border) 58%, var(--text) 42%);
+  border-radius: 16px;
+  padding: 14px 18px;
+  font-weight: 700;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.buttonSecondary {
+  background: rgba(6, 182, 212, 0.12);
+  color: var(--text);
+}
+
+.buttonDanger {
+  background: rgba(185, 28, 28, 0.12);
+  color: var(--danger);
+}
+
+@media (max-width: 680px) {
+  .taskCardActions {
+    flex-direction: column;
+  }
+}

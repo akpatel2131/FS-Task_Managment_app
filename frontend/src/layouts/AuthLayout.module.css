@@ -1,0 +1,107 @@
+.authPage {
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 28px;
+  padding: 32px;
+}
+
+.authHero,
+.authCard {
+  padding: 40px;
+  border-radius: 32px;
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
+}
+
+.authHero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--primary) 14%, var(--bg-strong)), var(--bg-elevated)),
+    var(--bg-elevated);
+}
+
+.authHeroBadge {
+  display: inline-flex;
+  width: fit-content;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.24);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.authHero h1 {
+  margin: 18px 0 12px;
+  font-family: var(--font-heading);
+  font-size: clamp(2.8rem, 5vw, 5rem);
+  line-height: 1;
+}
+
+.authHero p {
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.authHeroPanel {
+  display: grid;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.authHeroPanel div {
+  padding: 18px 20px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.authHeroPanel strong {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--font-heading);
+}
+
+.authCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--bg-strong);
+}
+
+.authSwitch {
+  margin-top: 18px;
+  color: var(--text-soft);
+}
+
+.authSwitch a {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+@media (max-width: 900px) {
+  .authPage {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+}
+
+@media (max-width: 680px) {
+  .authCard,
+  .authHero {
+    padding: 20px;
+    border-radius: 24px;
+  }
+
+  .authHero h1 {
+    font-size: 2.4rem;
+  }
+}

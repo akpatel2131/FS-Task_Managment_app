@@ -1,9 +1,10 @@
-const AppShell = ({ sidebar, header, children }) => (
-  <main className="dashboard-shell">
-    <aside className="dashboard-sidebar">{sidebar}</aside>
-    <section className="dashboard-main">
-      <header className="dashboard-header">{header}</header>
-      <div className="dashboard-content">{children}</div>
+import styles from "./AppShell.module.css";
+
+const AppShell = ({ header, children }) => (
+  <main className={styles.dashboardShell}>
+    <section className={styles.dashboardMain}>
+      <header className={styles.dashboardHeader}>{header}</header>
+      <div className={styles.dashboardContent}>{children}</div>
     </section>
   </main>
 );

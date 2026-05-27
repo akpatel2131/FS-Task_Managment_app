@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import AuthForm from "../components/AuthForm";
-import ThemeToggle from "../components/ThemeToggle";
 import useAuth from "../hooks/useAuth";
 import AuthLayout from "../layouts/AuthLayout";
 
@@ -26,10 +25,6 @@ const SignupPage = () => {
   };
 
   return (
-    <>
-      <div className="floating-theme-toggle">
-        <ThemeToggle />
-      </div>
       <AuthLayout
         title="Build a sharper workflow."
         subtitle="Create your account and start organizing tasks with a fast, mobile-ready interface."
@@ -43,7 +38,6 @@ const SignupPage = () => {
           errorMessage={errorMessage}
         />
       </AuthLayout>
-    </>
   );
 };
 

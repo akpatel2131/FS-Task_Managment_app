@@ -1,0 +1,13 @@
+.floatingThemeToggle {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 20;
+}
+
+@media (max-width: 680px) {
+  .floatingThemeToggle {
+    position: static;
+    padding: 16px 16px 0;
+  }
+}
