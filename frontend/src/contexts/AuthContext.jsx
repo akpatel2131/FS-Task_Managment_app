@@ -11,7 +11,15 @@ const USER_KEY = "task_manager_user";
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem(USER_KEY);
-    return storedUser ? JSON.parse(storedUser) : null;
+    if (!storedUser || storedUser === "undefined") {
+      return null;
+    }
+
+    try {
+      return JSON.parse(storedUser);
+    } catch (error) {
+      return null;
+    }
   });
   const [token, setToken] = useState(() => localStorage.getItem(TOKEN_KEY));
   const [isLoading, setIsLoading] = useState(true);
