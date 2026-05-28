@@ -153,8 +153,12 @@
     grid-template-columns: 1fr;
   }
 
-  .modalCardHeader,
   .modalCardActions {
     flex-direction: column;
+  }
+
+  .iconButton {
+    border: none;
+    background: transparent;
   }
 }

@@ -82,7 +82,7 @@ cp .env.example .env
 npm run dev
 ```
 
-The backend runs at `http://localhost:3000` by default.
+The backend runs at `https://fs-task-managment-app.onrender.com/api` by default.
 
 Backend scripts:
 
@@ -99,12 +99,12 @@ cp .env.example .env
 npm run dev
 ```
 
-The frontend runs at `http://localhost:5173` by default.
+The frontend runs at `https://task-management-wesite.netlify.app` by default.
 
 Frontend environment variables:
 
 ```text
-VITE_API_BASE_URL=http://localhost:3000/api
+VITE_API_BASE_URL=https://fs-task-managment-app.onrender.com/api/api
 ```
 
 Frontend scripts:
@@ -118,7 +118,7 @@ Frontend scripts:
 Base API URL:
 
 ```text
-http://localhost:3000/api
+https://fs-task-managment-app.onrender.com/api/api
 ```
 
 Health and documentation:
@@ -146,7 +146,7 @@ Users:
 - `GET /api/users` admin only
 - `GET /api/users/overview` admin only
 
-Swagger docs are available at `http://localhost:3000/api/docs`.
+Swagger docs are available at `https://fs-task-managment-app.onrender.com/api/api/docs`.
 
 ## Auth And Roles
 
